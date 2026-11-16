@@ -2,16 +2,10 @@ from display import show_one_room ,show_room_managment_menu
 from storge import load_json , update_json
 from validations import positive_num , is_empty , valid_difficulty_level, is_yes_or_no
 from helpers import get_input
-
+from helpers import find_room_by_id
 def show_all_rooms(rooms:list):
     for room in rooms:
         show_one_room(room)
-
-def find_specific_room(rooms:list,id):
-    for room in rooms:
-        if room["room_id"][len(room["room_id"]) - len(id):] == id:
-            return room,None
-    return False,"room not found!!"
 
 def ask_min_max_players():
     min_players = get_input("Set minimum number of players:\n",positive_num)
@@ -24,7 +18,7 @@ def ask_min_max_players():
             return min_players,max_players
         
 def add_new_room(rooms:list):
-    name = get_input("enter name for the room:\n",is_empty).
+    name = get_input("enter name for the room:\n",is_empty)
     difficulty = get_input("Set difficulty level: (hard/easy/medium)\n",valid_difficulty_level).capitalize()
     duration = get_input("Set duration in minutes:\n",positive_num)
     min_players , max_players = ask_min_max_players()
@@ -32,7 +26,7 @@ def add_new_room(rooms:list):
     active = get_input("Is the room active from now?: (Y/N)\n",is_yes_or_no).lower()
     is_active = True if active == "y" else False
     new_room = { 
-        "room_id": generate_id(rooms), 
+        "room_id": generate_room_id(rooms), 
         "name": name, 
         "difficulty": difficulty, 
         "duration": int(duration), 
@@ -45,7 +39,7 @@ def add_new_room(rooms:list):
     update_json("rooms.json",rooms)
     print("added successfully!!")
 
-def generate_id(rooms:list):
+def generate_room_id(rooms:list):
     new_id = max(int(n["room_id"][1:]) for n in rooms ) +1
     str_id = str(new_id)
     for _ in range(3 - len(str_id)):
@@ -53,7 +47,7 @@ def generate_id(rooms:list):
     return "R" + str_id
 
 def update_room(rooms,id):
-    found, msg = find_specific_room(rooms,id)
+    found, msg = find_room_by_id(rooms,id)
     if not found:
         return msg
     show_one_room(found)
@@ -85,7 +79,7 @@ def update_room(rooms,id):
         return "Updated successfully!!"
 
 def change_room_activity(rooms,id):
-    found, msg = find_specific_room(rooms,id)
+    found, msg = find_room_by_id(rooms,id)
     if not found:
         return msg
     show_one_room(found)
@@ -117,7 +111,7 @@ def run_managmant_rooms():
                 show_all_rooms(rooms)
             case "2":
                 room_id = get_input("enter id num\n",positive_num)
-                found,msg = find_specific_room(rooms,room_id)
+                found,msg = find_room_by_id(rooms,room_id)
                 show_one_room(found) if found else print(msg)
             case "3":
                 add_new_room(rooms)
@@ -134,4 +128,4 @@ def run_managmant_rooms():
             case _:
                 print("invalid choice!!")
 
-run_managmant_rooms()
+
