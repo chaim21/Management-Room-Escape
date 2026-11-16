@@ -52,3 +52,16 @@ what would you like to change?
 3. Number of participants
 4. Exit
 ''')
+
+def show_reports_menu():
+    print('''
+1. dispaly all active orders
+2. dispaly all cancel orders
+3. Revenue from active orders
+4. Total cancellation fees
+5. the most popular room
+6. Number of bookings per room
+7. Room occupancy percentage on a specific date
+8. Exit
+
+''')

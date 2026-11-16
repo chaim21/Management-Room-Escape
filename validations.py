@@ -43,7 +43,6 @@ def valid_order_room(txt, rooms):
     return True, None
 
 def str_to_date(txt):
-    print(txt)
     return datetime.strptime(txt.strip(), "%d/%m/%Y").date()
 
 def str_to_date_update(txt):

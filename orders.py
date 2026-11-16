@@ -102,6 +102,7 @@ def update_order(orders,rooms):
         show_one_order(order)
         update_json("bookings.json",orders)
         return "Updated successfully!!"
+    
 def run_order_menu():
     wanna_exit = False
     while not wanna_exit:
